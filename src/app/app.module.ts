@@ -5,8 +5,9 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { ReqresInterceptor } from './interceptors/reqres.interceptor';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -16,7 +17,13 @@ import { HttpClientModule } from '@angular/common/http';
     SharedModule,
     UsuariosModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ReqresInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
